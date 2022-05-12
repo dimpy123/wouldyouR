@@ -45,10 +45,11 @@ app.get("/registration", function(req, res){
     res.sendFile(__dirname + "/public/html/" + "registration.html");
 })
 
+
 // post to route "attempt login"
 app.post("/attempt_login", function(req, res){
     // we check for the username and password to match.
-    conn.query("select username, password from registeredusers where username = ?", [req.body.username], function (err, rows){
+    conn.query("select username, password from users where username = ?", [req.body.username], function (err, rows){
         if(err || rows.length === 0){
             authenticated = false;
             res.json({success: false, message: "This username does not exist!"});
