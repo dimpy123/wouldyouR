@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log("this is a red button");
                 redBut.style = `background-color: green;border-color: green`;
                 blueBut.style = `background-color: grey;border-color: grey`;
+                window.alert("100% of people said theyd rather beat off Celestin");
                 return;
             }
 
@@ -23,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log("this is a blue button");
                 blueBut.style = `background-color: green;border-color: green`;
                 redBut.style = `background-color: grey;border-color: grey`;
+                window.alert("0% of people said theyd rather beat off Christian");
                 return;
             }
         }
