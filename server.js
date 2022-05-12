@@ -13,8 +13,8 @@ const mysql = require("mysql2")
 const conn = mysql.createConnection({
     host: "localhost",
     user: "root",
-     password: "Ca.th2lo",
-    //password: "monaco14",
+     //password: "Ca.th2lo",
+    password: "monaco14",
     database: "dilemma"
 })
 
@@ -31,6 +31,10 @@ const app = express();
 username="ckim"
 password="12345"
 
+app.use(express.json());
+app.use(express.urlencoded());
+
+
 // Serve static files from the public dir
 // if you do not include this, then navigation to the localhost will not show anything
 app.use(express.static(path.join(__dirname, 'public'))); // will use the index.html file
@@ -43,6 +47,38 @@ app.get("/registration", function(req, res){
         authenticated = false;
     }
     res.sendFile(__dirname + "/public/html/" + "registration.html");
+})
+
+app.post("/register", function(req, res){
+    // we check to see if username is available
+    usernameQuery = "Select username from users where username = ?"
+    console.log(req.body.username + " caca");
+    conn.query(usernameQuery, [req.body.username], function(err, rows){ 
+        if(err){
+            res.json({success: false, message: "Server Error"})
+        }
+        // we check to see if the username is already taken
+        if (rows.length > 0){
+            res.json({success: false, message: "Username already taken! Please try another username"})
+        }
+        // if it isn't, we insert the user into database
+        else{
+            // we create a password hash before storing the password
+            passwordHash = bcrypt.hashSync(req.body.password, costFactor);
+            insertUser = "insert into users values(?, ?)"
+            conn.query(insertUser, [req.body.username, passwordHash], function(err, rows){
+                if (err){
+                    res.json({success: false, message: "Server Error"})
+                }
+                else{
+                    authenticated = true;
+                    res.json({success: true, message: "Welcome " + req.body.username + "!"})
+                    username = req.body.username;
+                    authenticated = true;
+                }
+            })
+        }
+    });
 })
 
 

@@ -3,16 +3,15 @@ let username = document.getElementById("username")
 let password = document.getElementById("password")
 let confirmPassword = document.getElementById("confirm_password")
 let registration = document.getElementById("registrationli");
-let regCont = document.getElementById("regCont");
 let messageCont = document.getElementById("messageCont");
 let message = document.getElementById("message");
-let upload = document.getElementById("uploadli");
 
 function register(event){
     event.preventDefault();
     if (password.value === confirmPassword.value && password.value.length > 0 && confirmPassword.value.length > 0 && username.value.length > 0){
         let xhr = new XMLHttpRequest()
         xhr.addEventListener("load", responseHandler)
+        console.log(username.value)
         query=`username=${username.value}&password=${password.value}`
         // when submitting a GET request, the query string is appended to URL
         // but in a POST request, do not attach the query string to the url
